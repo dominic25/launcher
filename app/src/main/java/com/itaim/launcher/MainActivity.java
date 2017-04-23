@@ -85,6 +85,3 @@ class AppDetail {
     CharSequence name;
     Drawable icon;
 }
-
-/* testing git */
-
