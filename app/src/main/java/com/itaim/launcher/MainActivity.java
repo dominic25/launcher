@@ -86,3 +86,5 @@ class AppDetail {
     Drawable icon;
 }
 
+/* testing git */
+
