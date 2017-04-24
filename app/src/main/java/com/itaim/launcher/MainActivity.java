@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         Init();
         CreateAppList();
     }
-    
+
     View.OnClickListener OpenApp = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -61,6 +61,16 @@ public class MainActivity extends AppCompatActivity {
             app.label = ri.loadLabel(packageManager);
             app.name = ri.activityInfo.packageName;
             app.icon = ri.activityInfo.loadIcon(packageManager);
+            ApplicationInfo ai = null;
+            try {
+                ai = getPackageManager().getApplicationInfo(ri.activityInfo.packageName.toString(), PackageManager.GET_META_DATA);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+            int mask = ApplicationInfo.FLAG_IS_GAME;
+            if((ai.flags & mask) == ApplicationInfo.FLAG_IS_GAME){
+               app.label= app.label+" Game";
+            }
             if (!(app.name.toString().equals("com.itaim.launcher"))) {
                 apps.add(app);
                 TableRow row = new TableRow(this);
