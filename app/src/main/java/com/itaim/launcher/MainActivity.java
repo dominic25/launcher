@@ -31,42 +31,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Intent intent = new Intent(Intent.ACTION_MAIN, null);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        apptable = (TableLayout) findViewById(R.id.apptable);
-        packageManager = getPackageManager();
-        apps = new ArrayList<>();
-        availableActivities = packageManager.queryIntentActivities(intent, 0);
-        int i = 0;
-        for (ResolveInfo ri:availableActivities) {
-            AppDetail app = new AppDetail();
-            app.label = ri.loadLabel(packageManager);
-            app.name = ri.activityInfo.packageName;
-            app.icon = ri.activityInfo.loadIcon(packageManager);
-           if (!(app.name.toString().equals("com.itaim.launcher"))) {
-               apps.add(app);
-               TableRow row = new TableRow(this);
-               TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-               lp.span = 2;
-               row.setLayoutParams(lp);
-               ImageView appImg = new ImageView(this);
-               TextView appName = new TextView(this);
-               appImg.setAdjustViewBounds(true);
-               appImg.setMaxHeight(150);
-               appImg.setMaxWidth(150);
-               appImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-               appName.setText(app.label);
-               appImg.setImageDrawable(app.icon);
-               row.addView(appImg);
-               row.addView(appName);
-               row.setTag(i);
-               row.setOnClickListener(OpenApp);
-               apptable.addView(row);
-               i++;
-           }
-        }
+        Init();
+        CreateAppList();
     }
+    
     View.OnClickListener OpenApp = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -78,7 +46,47 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private void Init(){
+        Intent intent = new Intent(Intent.ACTION_MAIN, null);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        apptable = (TableLayout) findViewById(R.id.apptable);
+        packageManager = getPackageManager();
+        apps = new ArrayList<>();
+        availableActivities = packageManager.queryIntentActivities(intent, 0);
+    }
+    private void CreateAppList(){
+        int i = 0;
+        for (ResolveInfo ri:availableActivities) {
+            AppDetail app = new AppDetail();
+            app.label = ri.loadLabel(packageManager);
+            app.name = ri.activityInfo.packageName;
+            app.icon = ri.activityInfo.loadIcon(packageManager);
+            if (!(app.name.toString().equals("com.itaim.launcher"))) {
+                apps.add(app);
+                TableRow row = new TableRow(this);
+                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+                lp.span = 2;
+                row.setLayoutParams(lp);
+                ImageView appImg = new ImageView(this);
+                TextView appName = new TextView(this);
+                appImg.setAdjustViewBounds(true);
+                appImg.setMaxHeight(150);
+                appImg.setMaxWidth(150);
+                appImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                appName.setText(app.label);
+                appImg.setImageDrawable(app.icon);
+                row.addView(appImg);
+                row.addView(appName);
+                row.setTag(i);
+                row.setOnClickListener(OpenApp);
+                apptable.addView(row);
+                i++;
+            }
+        }
+    }
 }
+
+
 
 class AppDetail {
     CharSequence label;
