@@ -8,9 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.app.WallpaperManager;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private List<ResolveInfo> availableActivities ;
     private List<AppDetail> apps;
     private TableLayout apptable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void Init(){
+        WallpaperSet();
         Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         apptable = (TableLayout) findViewById(R.id.apptable);
@@ -93,6 +95,16 @@ public class MainActivity extends AppCompatActivity {
                 i++;
             }
         }
+    }
+    private void WallpaperSet(){
+        final WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
+        final Drawable wallpaperDrawable = wallpaperManager.getDrawable();
+        ScrollView scroll = (ScrollView) findViewById(R.id.scroll);
+        scroll.setBackground(wallpaperDrawable);
+    }
+    public void WallpaperChanger(){
+        Intent intent = new Intent(Intent.ACTION_SET_WALLPAPER);
+        startActivity(Intent.createChooser(intent, "Select Wallpaper"));
     }
 }
 
