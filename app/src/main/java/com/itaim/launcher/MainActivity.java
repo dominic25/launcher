@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -115,8 +116,11 @@ public class MainActivity extends AppCompatActivity {
                 appImg.setMaxHeight(150);
                 appImg.setMaxWidth(150);
                 appImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                appName.setText(app.label);
                 appImg.setImageDrawable(app.icon);
+                appName.setText(app.label);
+                appName.setTypeface(null, Typeface.BOLD);
+                appName.setTextColor(Color.BLACK);
+                appName.setBackgroundColor(Color.argb(75, 255, 255, 255));
                 row.addView(appImg);
                 row.addView(appName);
                 row.setTag(i);
@@ -137,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
     public void ChangeWallpaper() {
         Intent intent = new Intent(Intent.ACTION_SET_WALLPAPER);
         startActivity(Intent.createChooser(intent, "Select Wallpaper"));
+        WallpaperSet();
     }
 }
 
